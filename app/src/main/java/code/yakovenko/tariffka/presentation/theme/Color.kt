@@ -1,4 +1,4 @@
-package code.yakovenko.tariffka.ui.theme
+package code.yakovenko.tariffka.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 

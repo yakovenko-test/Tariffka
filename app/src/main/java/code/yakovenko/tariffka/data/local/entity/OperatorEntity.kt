@@ -1,0 +1,12 @@
+package code.yakovenko.tariffka.data.local.entity
+
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import code.yakovenko.tariffka.MOCKED_OPERATOR
+
+@Entity(tableName = "operators")
+data class OperatorEntity(
+    @PrimaryKey val id: Long,
+)
+
+fun OperatorEntity.toDomain() = MOCKED_OPERATOR
