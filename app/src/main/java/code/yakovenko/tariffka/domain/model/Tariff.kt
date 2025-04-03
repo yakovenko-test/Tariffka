@@ -1,7 +1,6 @@
 package code.yakovenko.tariffka.domain.model
 
 import code.yakovenko.tariffka.data.local.entity.TariffEntity
-import code.yakovenko.tariffka.domain.model.utils.IdType
 
 data class Tariff(
     val id: IdType,
@@ -10,7 +9,14 @@ data class Tariff(
     val averageRating: Double,
     val minutesCount: Int,
     val gigabytesCount: Int,
-    val operatorId: IdType,
-)
+    val operator: Operator,
+) {
+    init {
+        require(cost > 0)
+        require(averageRating in 0.0..5.0)
+        require(minutesCount > 0)
+        require(gigabytesCount > 0)
+    }
+}
 
 fun Tariff.toData() = TariffEntity(id.id)

@@ -5,7 +5,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import code.yakovenko.tariffka.data.local.entity.UserEntity
-import code.yakovenko.tariffka.domain.model.utils.IdType
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface UserDao {
@@ -16,7 +16,7 @@ interface UserDao {
     suspend fun selectById(userId: IdType): UserEntity?
 
     @Query("SELECT * FROM users")
-    suspend fun selectAll(): List<UserEntity>
+    suspend fun selectAll(): Flow<List<UserEntity>>
 
     @Update
     suspend fun update(userEntity: UserEntity): Int

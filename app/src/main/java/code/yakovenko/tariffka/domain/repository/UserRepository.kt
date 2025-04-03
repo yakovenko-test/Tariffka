@@ -1,13 +1,13 @@
 package code.yakovenko.tariffka.domain.repository
 
 import code.yakovenko.tariffka.domain.model.User
-import code.yakovenko.tariffka.domain.model.utils.IdType
+import kotlinx.coroutines.flow.Flow
 
 interface UserRepository {
     suspend fun create(user: User)
 
     suspend fun readById(userId: IdType): User?
-    suspend fun readAll(): List<User>
+    suspend fun readAll(): Flow<List<User>>
 
     suspend fun update(user: User)
 

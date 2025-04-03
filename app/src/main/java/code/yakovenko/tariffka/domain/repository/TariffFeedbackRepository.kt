@@ -1,13 +1,13 @@
 package code.yakovenko.tariffka.domain.repository
 
 import code.yakovenko.tariffka.domain.model.TariffFeedback
-import code.yakovenko.tariffka.domain.model.utils.IdType
+import kotlinx.coroutines.flow.Flow
 
 interface TariffFeedbackRepository {
     suspend fun create(tariffFeedback: TariffFeedback)
 
     suspend fun readById(tariffFeedbackId: IdType): TariffFeedback?
-    suspend fun readAll(): List<TariffFeedback>
+    suspend fun readAll(): Flow<List<TariffFeedback>>
 
     suspend fun update(tariffFeedback: TariffFeedback)
 

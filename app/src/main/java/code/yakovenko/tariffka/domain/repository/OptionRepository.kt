@@ -1,13 +1,13 @@
 package code.yakovenko.tariffka.domain.repository
 
 import code.yakovenko.tariffka.domain.model.Option
-import code.yakovenko.tariffka.domain.model.utils.IdType
+import kotlinx.coroutines.flow.Flow
 
 interface OptionRepository {
     suspend fun create(option: Option)
 
     suspend fun readById(optionId: IdType): Option?
-    suspend fun readAll(): List<Option>
+    suspend fun readAll(): Flow<List<Option>>
 
     suspend fun update(option: Option)
 

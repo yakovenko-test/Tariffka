@@ -4,8 +4,9 @@ import code.yakovenko.tariffka.data.local.dao.OperatorDao
 import code.yakovenko.tariffka.data.local.entity.toDomain
 import code.yakovenko.tariffka.domain.model.Operator
 import code.yakovenko.tariffka.domain.model.toData
-import code.yakovenko.tariffka.domain.model.utils.IdType
 import code.yakovenko.tariffka.domain.repository.OperatorRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class OperatorRepositoryImpl @Inject constructor(
@@ -19,8 +20,10 @@ class OperatorRepositoryImpl @Inject constructor(
         return operatorDao.selectById(operatorId)?.toDomain()
     }
 
-    override suspend fun readAll(): List<Operator> {
-        return operatorDao.selectAll().map { it.toDomain() }
+    override suspend fun readAll(): Flow<List<Operator>> {
+        return operatorDao.selectAll().map {
+            entities -> entities.map { it.toDomain() }
+        }
     }
 
     override suspend fun update(operator: Operator) {

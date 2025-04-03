@@ -1,7 +1,7 @@
 package code.yakovenko.tariffka.domain.model
 
+import android.util.Patterns
 import code.yakovenko.tariffka.data.local.entity.UserEntity
-import code.yakovenko.tariffka.domain.model.utils.IdType
 import code.yakovenko.tariffka.domain.model.utils.UserGender
 import code.yakovenko.tariffka.domain.model.utils.UserRole
 import java.util.Date
@@ -18,9 +18,14 @@ data class User(
     val birthDate: Date,
     val gender: UserGender,
     val role: UserRole,
-    val operatorId: IdType?,
-    val tariffId: IdType?,
-    val optionIds: MutableList<IdType>,
-)
+    val operator: Operator?,
+    val tariff: Tariff?,
+) {
+    init {
+        require(Patterns.EMAIL_ADDRESS.matcher(email).matches())
+        require(Patterns.PHONE.matcher(phoneNumber).matches())
+        require(birthDate <= Date())
+    }
+}
 
 fun User.toData() = UserEntity(id.id)

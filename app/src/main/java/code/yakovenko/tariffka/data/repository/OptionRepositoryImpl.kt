@@ -4,8 +4,9 @@ import code.yakovenko.tariffka.data.local.dao.OptionDao
 import code.yakovenko.tariffka.data.local.entity.toDomain
 import code.yakovenko.tariffka.domain.model.Option
 import code.yakovenko.tariffka.domain.model.toData
-import code.yakovenko.tariffka.domain.model.utils.IdType
 import code.yakovenko.tariffka.domain.repository.OptionRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class OptionRepositoryImpl @Inject constructor(
@@ -19,8 +20,10 @@ class OptionRepositoryImpl @Inject constructor(
         return optionDao.selectById(optionId)?.toDomain()
     }
 
-    override suspend fun readAll(): List<Option> {
-        return optionDao.selectAll().map { it.toDomain() }
+    override suspend fun readAll(): Flow<List<Option>> {
+        return optionDao.selectAll().map { entities ->
+            entities.map { it.toDomain() }
+        }
     }
 
     override suspend fun update(option: Option) {

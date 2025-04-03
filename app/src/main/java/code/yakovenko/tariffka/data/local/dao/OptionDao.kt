@@ -5,7 +5,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import code.yakovenko.tariffka.data.local.entity.OptionEntity
-import code.yakovenko.tariffka.domain.model.utils.IdType
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface OptionDao {
@@ -16,7 +16,7 @@ interface OptionDao {
     suspend fun selectById(optionId: IdType): OptionEntity?
 
     @Query("SELECT * FROM options")
-    suspend fun selectAll(): List<OptionEntity>
+    suspend fun selectAll(): Flow<List<OptionEntity>>
 
     @Update
     suspend fun update(optionEntity: OptionEntity): Int

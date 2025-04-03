@@ -4,8 +4,9 @@ import code.yakovenko.tariffka.data.local.dao.TariffFeedbackDao
 import code.yakovenko.tariffka.data.local.entity.toDomain
 import code.yakovenko.tariffka.domain.model.TariffFeedback
 import code.yakovenko.tariffka.domain.model.toData
-import code.yakovenko.tariffka.domain.model.utils.IdType
 import code.yakovenko.tariffka.domain.repository.TariffFeedbackRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class TariffFeedbackRepositoryImpl @Inject constructor(
@@ -19,8 +20,10 @@ class TariffFeedbackRepositoryImpl @Inject constructor(
         return tariffFeedbackDao.selectById(tariffFeedbackId)?.toDomain()
     }
 
-    override suspend fun readAll(): List<TariffFeedback> {
-        return tariffFeedbackDao.selectAll().map { it.toDomain() }
+    override suspend fun readAll(): Flow<List<TariffFeedback>> {
+        return tariffFeedbackDao.selectAll().map { entities ->
+            entities.map { it.toDomain() }
+        }
     }
 
     override suspend fun update(tariffFeedback: TariffFeedback) {

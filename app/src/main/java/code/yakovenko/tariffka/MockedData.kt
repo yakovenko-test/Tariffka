@@ -7,7 +7,6 @@ import code.yakovenko.tariffka.domain.model.Tariff
 import code.yakovenko.tariffka.domain.model.TariffDiscount
 import code.yakovenko.tariffka.domain.model.TariffFeedback
 import code.yakovenko.tariffka.domain.model.User
-import code.yakovenko.tariffka.domain.model.utils.IdType
 import code.yakovenko.tariffka.domain.model.utils.TicketStatus
 import code.yakovenko.tariffka.domain.model.utils.UserGender
 import code.yakovenko.tariffka.domain.model.utils.UserRole
@@ -18,7 +17,7 @@ import java.util.Date
 val MOCKED_OPERATOR = Operator(
     IdType(1),
     "operator",
-    URL("operator"),
+    "operator",
     "operator",
     "operator",
     2025,
@@ -56,8 +55,7 @@ val MOCKED_USER = User(
     UserGender.MALE,
     UserRole.USER,
     MOCKED_OPERATOR.id,
-    MOCKED_TARIFF.id,
-    mutableListOf(MOCKED_OPTION.id)
+    MOCKED_TARIFF.id
 )
 
 val MOCKED_SUPPORT_TICKET = SupportTicket(

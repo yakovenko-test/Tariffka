@@ -6,7 +6,6 @@ import code.yakovenko.tariffka.domain.model.utils.TicketStatus.OPEN
 import code.yakovenko.tariffka.domain.model.utils.TicketStatus.REJECTED
 import code.yakovenko.tariffka.domain.model.utils.TicketStatus.RESOLVED
 
-
 /**
  * @property OPEN Обращение создано, но еще не обработано.
  * @property IN_PROGRESS Обращение находится в процессе обработки.

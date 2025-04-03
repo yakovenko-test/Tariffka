@@ -4,8 +4,9 @@ import code.yakovenko.tariffka.data.local.dao.TariffDao
 import code.yakovenko.tariffka.data.local.entity.toDomain
 import code.yakovenko.tariffka.domain.model.Tariff
 import code.yakovenko.tariffka.domain.model.toData
-import code.yakovenko.tariffka.domain.model.utils.IdType
 import code.yakovenko.tariffka.domain.repository.TariffRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class TariffRepositoryImpl @Inject constructor(
@@ -19,8 +20,10 @@ class TariffRepositoryImpl @Inject constructor(
         return tariffDao.selectById(tariffId)?.toDomain()
     }
 
-    override suspend fun readAll(): List<Tariff> {
-        return tariffDao.selectAll().map { it.toDomain() }
+    override suspend fun readAll(): Flow<List<Tariff>> {
+        return tariffDao.selectAll().map { entities ->
+            entities.map { it.toDomain() }
+        }
     }
 
     override suspend fun update(tariff: Tariff) {

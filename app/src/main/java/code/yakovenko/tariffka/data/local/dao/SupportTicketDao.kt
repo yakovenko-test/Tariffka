@@ -5,7 +5,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import code.yakovenko.tariffka.data.local.entity.SupportTicketEntity
-import code.yakovenko.tariffka.domain.model.utils.IdType
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface SupportTicketDao {
@@ -16,7 +16,7 @@ interface SupportTicketDao {
     suspend fun selectById(supportTicketId: IdType): SupportTicketEntity?
 
     @Query("SELECT * FROM support_tickets")
-    suspend fun selectAll(): List<SupportTicketEntity>
+    suspend fun selectAll(): Flow<List<SupportTicketEntity>>
 
     @Update
     suspend fun update(supportTicketEntity: SupportTicketEntity): Int

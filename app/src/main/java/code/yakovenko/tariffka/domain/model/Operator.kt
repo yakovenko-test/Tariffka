@@ -1,17 +1,29 @@
 package code.yakovenko.tariffka.domain.model
 
+import android.util.Patterns
 import code.yakovenko.tariffka.data.local.entity.OperatorEntity
-import code.yakovenko.tariffka.domain.model.utils.IdType
-import java.net.URL
+import java.time.Year
 
 data class Operator(
-    val id: IdType,
+    val id: Long,
     val name: String,
-    val url: URL,
+    val url: String,
     val description: String,
-    val country: String,
     val yearOfFoundation: Int,
-    val averageRating: Double,
-)
+    val averageRating: Double = 0.0,
+) {
+    init {
+        require(Patterns.WEB_URL.matcher(url).matches())
+        require(yearOfFoundation in 0..Year.now().value)
+        require(averageRating in 0.0..5.0)
+    }
+}
 
-fun Operator.toData() = OperatorEntity(id.id)
+fun Operator.toData() = OperatorEntity(
+    id,
+    name,
+    url,
+    description,
+    yearOfFoundation,
+    averageRating
+)

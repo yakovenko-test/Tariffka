@@ -1,14 +1,23 @@
 package code.yakovenko.tariffka.domain.model
 
 import code.yakovenko.tariffka.data.local.entity.OptionEntity
-import code.yakovenko.tariffka.domain.model.utils.IdType
 
 data class Option(
-    val id: IdType,
+    val id: Long,
     val name: String,
     val cost: Int,
     val description: String,
-    val operatorId: IdType,
-)
+    val operator: Operator,
+) {
+    init {
+        require(cost > 0)
+    }
+}
 
-fun Option.toData() = OptionEntity(id.id)
+fun Option.toData() = OptionEntity(
+    id,
+    name,
+    cost,
+    description,
+    operator.id
+)

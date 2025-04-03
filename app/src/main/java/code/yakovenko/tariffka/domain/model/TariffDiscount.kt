@@ -1,7 +1,6 @@
 package code.yakovenko.tariffka.domain.model
 
 import code.yakovenko.tariffka.data.local.entity.TariffDiscountEntity
-import code.yakovenko.tariffka.domain.model.utils.IdType
 import java.time.LocalDateTime
 
 data class TariffDiscount(
@@ -9,7 +8,13 @@ data class TariffDiscount(
     val activeFrom: LocalDateTime,
     val activeUntil: LocalDateTime,
     val newCost: Int,
-    val tariffId: IdType,
-)
+    val tariff: Tariff,
+) {
+    init {
+        require(activeFrom <= LocalDateTime.now())
+        require(activeFrom <= activeUntil)
+        require(newCost > 0)
+    }
+}
 
 fun TariffDiscount.toData() = TariffDiscountEntity(id.id)

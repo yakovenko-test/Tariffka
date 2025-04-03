@@ -4,8 +4,9 @@ import code.yakovenko.tariffka.data.local.dao.SupportTicketDao
 import code.yakovenko.tariffka.data.local.entity.toDomain
 import code.yakovenko.tariffka.domain.model.SupportTicket
 import code.yakovenko.tariffka.domain.model.toData
-import code.yakovenko.tariffka.domain.model.utils.IdType
 import code.yakovenko.tariffka.domain.repository.SupportTicketRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class SupportTicketRepositoryImpl @Inject constructor(
@@ -19,8 +20,10 @@ class SupportTicketRepositoryImpl @Inject constructor(
         return supportTicketDao.selectById(supportTicketId)?.toDomain()
     }
 
-    override suspend fun readAll(): List<SupportTicket> {
-        return supportTicketDao.selectAll().map { it.toDomain() }
+    override suspend fun readAll(): Flow<List<SupportTicket>> {
+        return supportTicketDao.selectAll().map { entities ->
+            entities.map { it.toDomain() }
+        }
     }
 
     override suspend fun update(supportTicket: SupportTicket) {
