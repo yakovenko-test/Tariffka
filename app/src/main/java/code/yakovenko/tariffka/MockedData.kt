@@ -7,6 +7,7 @@ import code.yakovenko.tariffka.domain.model.Tariff
 import code.yakovenko.tariffka.domain.model.TariffDiscount
 import code.yakovenko.tariffka.domain.model.TariffFeedback
 import code.yakovenko.tariffka.domain.model.User
+import code.yakovenko.tariffka.domain.model.utils.IdType
 import code.yakovenko.tariffka.domain.model.utils.TicketStatus
 import code.yakovenko.tariffka.domain.model.utils.UserGender
 import code.yakovenko.tariffka.domain.model.utils.UserRole
@@ -15,7 +16,7 @@ import java.time.LocalDateTime
 import java.util.Date
 
 val MOCKED_OPERATOR = Operator(
-    1,
+    IdType(1),
     "operator",
     URL("operator"),
     "operator",
@@ -25,25 +26,25 @@ val MOCKED_OPERATOR = Operator(
 )
 
 val MOCKED_OPTION = Option(
-    1,
+    IdType(1),
     "option",
     1000,
     "option",
-    MOCKED_OPERATOR
+    MOCKED_OPERATOR.id
 )
 
 val MOCKED_TARIFF = Tariff(
-    1,
+    IdType(1),
     "tariff",
     2000,
     5.0,
     200,
     200,
-    MOCKED_OPERATOR
+    MOCKED_OPERATOR.id
 )
 
 val MOCKED_USER = User(
-    1,
+    IdType(1),
     "user",
     "user",
     "user",
@@ -54,35 +55,35 @@ val MOCKED_USER = User(
     Date(2025),
     UserGender.MALE,
     UserRole.USER,
-    MOCKED_OPERATOR,
-    MOCKED_TARIFF,
-    mutableListOf(MOCKED_OPTION)
+    MOCKED_OPERATOR.id,
+    MOCKED_TARIFF.id,
+    mutableListOf(MOCKED_OPTION.id)
 )
 
 val MOCKED_SUPPORT_TICKET = SupportTicket(
-    1,
+    IdType(1),
     "support_ticket",
     "support_ticket",
     LocalDateTime.now(),
     LocalDateTime.now(),
-    MOCKED_USER,
+    TicketStatus.OPEN,
+    MOCKED_USER.id,
     null,
-    TicketStatus.OPEN
 )
 
 val MOCKED_TARIFF_FEEDBACK = TariffFeedback(
-    1,
+    IdType(1),
     "tariff_feedback",
     5,
     LocalDateTime.now(),
-    MOCKED_TARIFF,
-    MOCKED_USER
+    MOCKED_TARIFF.id,
+    MOCKED_USER.id
 )
 
 val MOCKED_TARIFF_DISCOUNT = TariffDiscount(
-    1,
+    IdType(1),
     LocalDateTime.now(),
     LocalDateTime.now(),
     2000,
-    MOCKED_TARIFF
+    MOCKED_TARIFF.id
 )
