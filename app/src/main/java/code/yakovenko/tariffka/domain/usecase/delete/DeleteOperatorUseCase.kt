@@ -6,7 +6,7 @@ import javax.inject.Inject
 class DeleteOperatorUseCase @Inject constructor(
     private val operatorRepository: OperatorRepository
 ) {
-    suspend operator fun invoke(operatorId: IdType) {
+    suspend operator fun invoke(operatorId: Int) {
         operatorRepository.deleteById(operatorId)
     }
 }

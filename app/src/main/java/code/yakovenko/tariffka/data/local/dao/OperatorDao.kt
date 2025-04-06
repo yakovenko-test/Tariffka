@@ -13,14 +13,14 @@ interface OperatorDao {
     suspend fun insert(operatorEntity: OperatorEntity)
 
     @Query("SELECT * FROM operators WHERE id = :operatorId")
-    suspend fun selectById(operatorId: IdType): OperatorEntity?
+    suspend fun selectById(operatorId: Int): OperatorEntity?
 
     @Query("SELECT * FROM operators")
-    suspend fun selectAll(): Flow<List<OperatorEntity>>
+    fun selectAll(): Flow<List<OperatorEntity>>
 
     @Update
     suspend fun update(operatorEntity: OperatorEntity): Int
 
     @Query("DELETE FROM operators WHERE id = :operatorId")
-    suspend fun deleteById(operatorId: IdType): Int
+    suspend fun deleteById(operatorId: Int): Int
 }

@@ -2,8 +2,8 @@ package code.yakovenko.tariffka.data.local.entity
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
-import code.yakovenko.tariffka.MOCKED_TARIFF
 
 @Entity(
     tableName = "tariffs",
@@ -13,16 +13,15 @@ import code.yakovenko.tariffka.MOCKED_TARIFF
             parentColumns = ["id"],
             childColumns = ["operatorId"],
         )
-    ]
+    ],
+    indices = [Index("operatorId")]
 )
 data class TariffEntity(
-    @PrimaryKey val id: Long,
+    @PrimaryKey val id: Int,
+    val operatorId: Int,
     val name: String,
     val cost: Int,
-    val averageRating: Double,
     val minutesCount: Int,
     val gigabytesCount: Int,
-    val operatorId: IdType,
+    val averageRating: Double,
 )
-
-fun TariffEntity.toDomain() = MOCKED_TARIFF

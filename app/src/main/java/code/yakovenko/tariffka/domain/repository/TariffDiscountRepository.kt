@@ -6,10 +6,10 @@ import kotlinx.coroutines.flow.Flow
 interface TariffDiscountRepository {
     suspend fun create(tariffDiscount: TariffDiscount)
 
-    suspend fun readById(tariffDiscountId: IdType): TariffDiscount?
+    suspend fun readById(tariffDiscountId: Int): TariffDiscount?
     suspend fun readAll(): Flow<List<TariffDiscount>>
 
     suspend fun update(tariffDiscount: TariffDiscount)
 
-    suspend fun deleteById(tariffDiscountId: IdType)
+    suspend fun deleteById(tariffDiscountId: Int)
 }

@@ -6,7 +6,7 @@ import javax.inject.Inject
 class DeleteTariffFeedbackUseCase @Inject constructor(
     private val tariffFeedbackRepository: TariffFeedbackRepository
 ) {
-    suspend operator fun invoke(tariffFeedbackId: IdType) {
+    suspend operator fun invoke(tariffFeedbackId: Int) {
         tariffFeedbackRepository.deleteById(tariffFeedbackId)
     }
 }

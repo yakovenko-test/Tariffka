@@ -2,9 +2,9 @@ package code.yakovenko.tariffka.data.local.entity
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
-import code.yakovenko.tariffka.MOCKED_SUPPORT_TICKET
-import code.yakovenko.tariffka.domain.model.utils.TicketStatus
+import code.yakovenko.tariffka.core.utils.TicketStatus
 import java.time.LocalDateTime
 
 @Entity(
@@ -20,17 +20,16 @@ import java.time.LocalDateTime
             parentColumns = ["id"],
             childColumns = ["assigneeId"]
         )
-    ]
+    ],
+    indices = [Index("reporterId"), Index("assigneeId")]
 )
 data class SupportTicketEntity(
-    @PrimaryKey val id: Long,
+    @PrimaryKey val id: Int,
+    val reporterId: Int,
+    val assigneeId: Int?,
     val title: String,
     val description: String,
     val createdAt: LocalDateTime,
     val updatedAt: LocalDateTime,
     val status: TicketStatus,
-    val reporterId: Long,
-    val assigneeId: Long?,
 )
-
-fun SupportTicketEntity.toDomain() = MOCKED_SUPPORT_TICKET

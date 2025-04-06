@@ -13,14 +13,14 @@ interface SupportTicketDao {
     suspend fun insert(supportTicketEntity: SupportTicketEntity)
 
     @Query("SELECT * FROM support_tickets WHERE id = :supportTicketId")
-    suspend fun selectById(supportTicketId: IdType): SupportTicketEntity?
+    suspend fun selectById(supportTicketId: Int): SupportTicketEntity?
 
     @Query("SELECT * FROM support_tickets")
-    suspend fun selectAll(): Flow<List<SupportTicketEntity>>
+    fun selectAll(): Flow<List<SupportTicketEntity>>
 
     @Update
     suspend fun update(supportTicketEntity: SupportTicketEntity): Int
 
     @Query("DELETE FROM support_tickets WHERE id = :supportTicketId")
-    suspend fun deleteById(supportTicketId: IdType): Int
+    suspend fun deleteById(supportTicketId: Int): Int
 }

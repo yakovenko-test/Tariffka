@@ -13,14 +13,17 @@ interface TariffDao {
     suspend fun insert(tariffEntity: TariffEntity)
 
     @Query("SELECT * FROM tariffs WHERE id = :tariffId")
-    suspend fun selectById(tariffId: IdType): TariffEntity?
+    suspend fun selectById(tariffId: Int): TariffEntity?
+
+    @Query("SELECT * FROM tariffs WHERE operatorId = :operatorId")
+    fun selectByOperatorId(operatorId: Int): Flow<List<TariffEntity>>
 
     @Query("SELECT * FROM tariffs")
-    suspend fun selectAll(): Flow<List<TariffEntity>>
+    fun selectAll(): Flow<List<TariffEntity>>
 
     @Update
     suspend fun update(tariffEntity: TariffEntity): Int
 
     @Query("DELETE FROM tariffs WHERE id = :tariffId")
-    suspend fun deleteById(tariffId: IdType): Int
+    suspend fun deleteById(tariffId: Int): Int
 }

@@ -1,12 +1,26 @@
 package code.yakovenko.tariffka.data.local.entity
 
 import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
-import code.yakovenko.tariffka.MOCKED_TARIFF_DISCOUNT
+import java.time.LocalDateTime
 
-@Entity(tableName = "tariff_discounts")
-data class TariffDiscountEntity(
-    @PrimaryKey val id: Long,
+@Entity(
+    tableName = "tariff_discounts",
+    foreignKeys = [
+        ForeignKey(
+            entity = TariffEntity::class,
+            parentColumns = ["id"],
+            childColumns = ["tariffId"],
+        )
+    ],
+    indices = [Index("tariffId")]
 )
-
-fun TariffDiscountEntity.toDomain() = MOCKED_TARIFF_DISCOUNT
+data class TariffDiscountEntity(
+    @PrimaryKey val id: Int,
+    val tariffId: Int,
+    val newCost: Int,
+    val activeFrom: LocalDateTime,
+    val activeUntil: LocalDateTime,
+)

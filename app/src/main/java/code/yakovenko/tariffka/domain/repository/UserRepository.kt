@@ -6,10 +6,10 @@ import kotlinx.coroutines.flow.Flow
 interface UserRepository {
     suspend fun create(user: User)
 
-    suspend fun readById(userId: IdType): User?
+    suspend fun readById(userId: Int): User?
     suspend fun readAll(): Flow<List<User>>
 
     suspend fun update(user: User)
 
-    suspend fun deleteById(userId: IdType)
+    suspend fun deleteById(userId: Int)
 }

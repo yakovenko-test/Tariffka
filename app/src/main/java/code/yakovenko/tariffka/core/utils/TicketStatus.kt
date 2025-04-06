@@ -1,10 +1,10 @@
-package code.yakovenko.tariffka.domain.model.utils
+package code.yakovenko.tariffka.core.utils
 
-import code.yakovenko.tariffka.domain.model.utils.TicketStatus.CLOSED
-import code.yakovenko.tariffka.domain.model.utils.TicketStatus.IN_PROGRESS
-import code.yakovenko.tariffka.domain.model.utils.TicketStatus.OPEN
-import code.yakovenko.tariffka.domain.model.utils.TicketStatus.REJECTED
-import code.yakovenko.tariffka.domain.model.utils.TicketStatus.RESOLVED
+import code.yakovenko.tariffka.core.utils.TicketStatus.CLOSED
+import code.yakovenko.tariffka.core.utils.TicketStatus.IN_PROGRESS
+import code.yakovenko.tariffka.core.utils.TicketStatus.OPEN
+import code.yakovenko.tariffka.core.utils.TicketStatus.REJECTED
+import code.yakovenko.tariffka.core.utils.TicketStatus.RESOLVED
 
 /**
  * @property OPEN Обращение создано, но еще не обработано.

@@ -6,7 +6,7 @@ import javax.inject.Inject
 class DeleteSupportTicketUseCase @Inject constructor(
     private val supportTicketRepository: SupportTicketRepository
 ) {
-    suspend operator fun invoke(supportTicketId: IdType) {
+    suspend operator fun invoke(supportTicketId: Int) {
         supportTicketRepository.deleteById(supportTicketId)
     }
 }

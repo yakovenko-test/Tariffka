@@ -13,14 +13,14 @@ interface UserDao {
     suspend fun insert(userEntity: UserEntity)
 
     @Query("SELECT * FROM users WHERE id = :userId")
-    suspend fun selectById(userId: IdType): UserEntity?
+    suspend fun selectById(userId: Int): UserEntity?
 
     @Query("SELECT * FROM users")
-    suspend fun selectAll(): Flow<List<UserEntity>>
+    fun selectAll(): Flow<List<UserEntity>>
 
     @Update
     suspend fun update(userEntity: UserEntity): Int
 
     @Query("DELETE FROM users WHERE id = :userId")
-    suspend fun deleteById(userId: IdType): Int
+    suspend fun deleteById(userId: Int): Int
 }

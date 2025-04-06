@@ -13,14 +13,14 @@ interface TariffFeedbackDao {
     suspend fun insert(tariffFeedbackEntity: TariffFeedbackEntity)
 
     @Query("SELECT * FROM tariff_feedbacks WHERE id = :tariffFeedbackId")
-    suspend fun selectById(tariffFeedbackId: IdType): TariffFeedbackEntity?
+    suspend fun selectById(tariffFeedbackId: Int): TariffFeedbackEntity?
 
     @Query("SELECT * FROM tariff_feedbacks")
-    suspend fun selectAll(): Flow<List<TariffFeedbackEntity>>
+    fun selectAll(): Flow<List<TariffFeedbackEntity>>
 
     @Update
     suspend fun update(tariffFeedbackEntity: TariffFeedbackEntity): Int
 
     @Query("DELETE FROM tariff_feedbacks WHERE id = :tariffFeedbackId")
-    suspend fun deleteById(tariffFeedbackId: IdType): Int
+    suspend fun deleteById(tariffFeedbackId: Int): Int
 }
