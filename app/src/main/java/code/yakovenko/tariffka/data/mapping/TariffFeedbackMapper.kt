@@ -2,7 +2,6 @@ package code.yakovenko.tariffka.data.mapping
 
 import code.yakovenko.tariffka.data.local.entity.TariffFeedbackEntity
 import code.yakovenko.tariffka.domain.model.TariffFeedback
-import java.time.LocalDateTime
 
 object TariffFeedbackMapper {
     fun toDomain(tariffFeedbackEntity: TariffFeedbackEntity): TariffFeedback {
@@ -13,11 +12,7 @@ object TariffFeedbackMapper {
             description = tariffFeedbackEntity.description,
             rating = tariffFeedbackEntity.rating,
             publishedAt = tariffFeedbackEntity.publishedAt
-        ).apply {
-            require(description?.isNotBlank() == true)
-            require(rating in 0..5)
-            require(publishedAt <= LocalDateTime.now())
-        }
+        )
     }
 
     fun toData(tariffFeedback: TariffFeedback): TariffFeedbackEntity {

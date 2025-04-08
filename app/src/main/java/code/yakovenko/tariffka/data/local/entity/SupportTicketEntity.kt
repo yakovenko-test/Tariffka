@@ -1,5 +1,6 @@
 package code.yakovenko.tariffka.data.local.entity
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
@@ -13,23 +14,27 @@ import java.time.LocalDateTime
         ForeignKey(
             entity = UserEntity::class,
             parentColumns = ["id"],
-            childColumns = ["reporterId"]
+            childColumns = ["reporter_id"]
         ),
         ForeignKey(
             entity = UserEntity::class,
             parentColumns = ["id"],
-            childColumns = ["assigneeId"]
+            childColumns = ["assignee_id"]
         )
     ],
-    indices = [Index("reporterId"), Index("assigneeId")]
+    indices = [Index("reporter_id"), Index("assignee_id")]
 )
 data class SupportTicketEntity(
     @PrimaryKey val id: Int,
+    @ColumnInfo("reporter_id")
     val reporterId: Int,
+    @ColumnInfo("assignee_id")
     val assigneeId: Int?,
     val title: String,
     val description: String,
+    @ColumnInfo("created_at")
     val createdAt: LocalDateTime,
+    @ColumnInfo("updated_at")
     val updatedAt: LocalDateTime,
     val status: TicketStatus,
 )

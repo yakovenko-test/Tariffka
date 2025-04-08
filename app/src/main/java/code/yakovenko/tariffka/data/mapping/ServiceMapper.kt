@@ -11,11 +11,7 @@ object ServiceMapper {
             name = serviceEntity.name,
             cost = serviceEntity.cost,
             description = serviceEntity.description
-        ).apply {
-            require(name.isNotBlank())
-            require(cost >= 0)
-            require(description.isNotBlank())
-        }
+        )
     }
 
     fun toData(service: Service): ServiceEntity {

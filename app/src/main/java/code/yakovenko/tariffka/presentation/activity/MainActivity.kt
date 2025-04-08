@@ -1,4 +1,4 @@
-package code.yakovenko.tariffka
+package code.yakovenko.tariffka.presentation.activity
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

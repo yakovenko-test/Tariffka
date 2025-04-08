@@ -1,5 +1,6 @@
 package code.yakovenko.tariffka.data.local.entity
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -7,7 +8,8 @@ import androidx.room.PrimaryKey
 data class OperatorEntity(
     @PrimaryKey val id: Int,
     val name: String,
-    val url: String,
-    val description: String,
-    val yearOfFoundation: Int,
+    val url: String?,
+    val description: String?,
+    @ColumnInfo("year_of_foundation")
+    val yearOfFoundation: Int?,
 )

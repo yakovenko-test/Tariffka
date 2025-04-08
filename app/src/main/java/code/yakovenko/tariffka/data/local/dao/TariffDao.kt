@@ -15,7 +15,7 @@ interface TariffDao {
     @Query("SELECT * FROM tariffs WHERE id = :tariffId")
     suspend fun selectById(tariffId: Int): TariffEntity?
 
-    @Query("SELECT * FROM tariffs WHERE operatorId = :operatorId")
+    @Query("SELECT * FROM tariffs WHERE operator_id = :operatorId")
     fun selectByOperatorId(operatorId: Int): Flow<List<TariffEntity>>
 
     @Query("SELECT * FROM tariffs")

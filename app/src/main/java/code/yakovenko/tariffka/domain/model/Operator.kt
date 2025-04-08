@@ -6,14 +6,14 @@ import java.time.Year
 data class Operator(
     val id: Int,
     val name: String,
-    val url: String,
-    val description: String,
-    val yearOfFoundation: Int,
+    val url: String?,
+    val description: String?,
+    val yearOfFoundation: Int?,
 ) {
     init {
         require(name.isNotBlank())
-        require(Patterns.WEB_URL.matcher(url).matches())
-        require(description.isNotBlank())
+        require(url?.let { Patterns.WEB_URL.matcher(it).matches() } != false)
+        require(description?.isNotBlank() != false)
         require(yearOfFoundation in 0..Year.now().value)
     }
 }

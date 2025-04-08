@@ -1,9 +1,7 @@
 package code.yakovenko.tariffka.data.mapping
 
-import android.util.Patterns
 import code.yakovenko.tariffka.data.local.entity.UserEntity
 import code.yakovenko.tariffka.domain.model.User
-import java.time.LocalDate
 
 object UserMapper {
     fun toDomain(userEntity: UserEntity): User {
@@ -21,16 +19,7 @@ object UserMapper {
             role = userEntity.role,
             birthDate = userEntity.birthDate,
             password = userEntity.password
-        ).apply {
-            require(name.isNotBlank())
-            require(surname.isNotBlank())
-            require(patronymic?.isNotBlank() == true)
-            require(login.isNotBlank())
-            require(Patterns.EMAIL_ADDRESS.matcher(email).matches())
-            require(Patterns.PHONE.matcher(phoneNumber).matches())
-            require(birthDate <= LocalDate.now())
-            require(password.isNotBlank())
-        }
+        )
     }
 
     fun toData(user: User): UserEntity {
@@ -38,12 +27,12 @@ object UserMapper {
             id = user.id,
             operatorId = user.operatorId,
             tariffId = user.tariffId,
-            name = user.name.trim(),
-            surname = user.surname.trim(),
-            patronymic = user.patronymic?.trim(),
+            name = user.name,
+            surname = user.surname,
+            patronymic = user.patronymic,
             login = user.login.trim(),
-            phoneNumber = user.phoneNumber.trim(),
-            email = user.email.trim(),
+            phoneNumber = user.phoneNumber,
+            email = user.email,
             gender = user.gender,
             role = user.role,
             birthDate = user.birthDate,

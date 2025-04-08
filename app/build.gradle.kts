@@ -55,6 +55,9 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     ksp(libs.androidx.room.compiler)
 
+    implementation(libs.ktor.server.core)
+    implementation(libs.ktor.server.netty)
+
     // https://mvnrepository.com/artifact/com.google.dagger/dagger
     implementation(libs.dagger)
 

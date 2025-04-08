@@ -1,5 +1,6 @@
 package code.yakovenko.tariffka.data.local.entity
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
@@ -12,15 +13,19 @@ import java.time.LocalDateTime
         ForeignKey(
             entity = TariffEntity::class,
             parentColumns = ["id"],
-            childColumns = ["tariffId"],
+            childColumns = ["tariff_id"],
         )
     ],
-    indices = [Index("tariffId")]
+    indices = [Index("tariff_id")]
 )
 data class TariffDiscountEntity(
     @PrimaryKey val id: Int,
+    @ColumnInfo("tariff_id")
     val tariffId: Int,
+    @ColumnInfo("new_cost")
     val newCost: Int,
+    @ColumnInfo("active_from")
     val activeFrom: LocalDateTime,
+    @ColumnInfo("active_until")
     val activeUntil: LocalDateTime,
 )

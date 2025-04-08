@@ -5,11 +5,11 @@ data class Service(
     val operatorId: Int,
     val name: String,
     val cost: Int,
-    val description: String,
+    val description: String?,
 ) {
     init {
         require(name.isNotBlank())
         require(cost >= 0)
-        require(description.isNotBlank())
+        require(description?.isNotBlank() != false)
     }
 }

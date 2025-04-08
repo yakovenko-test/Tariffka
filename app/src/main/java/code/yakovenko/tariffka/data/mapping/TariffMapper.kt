@@ -13,13 +13,7 @@ object TariffMapper {
             minutesCount = tariffEntity.minutesCount,
             gigabytesCount = tariffEntity.gigabytesCount,
             averageRating = tariffEntity.averageRating
-        ).apply {
-            require(name.isNotBlank())
-            require(cost >= 0)
-            require(minutesCount >= 0)
-            require(gigabytesCount >= 0)
-            require(averageRating in 0.0..5.0)
-        }
+        )
     }
 
     fun toData(tariff: Tariff): TariffEntity {

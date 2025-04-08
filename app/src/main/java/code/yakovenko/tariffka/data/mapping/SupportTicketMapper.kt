@@ -2,7 +2,6 @@ package code.yakovenko.tariffka.data.mapping
 
 import code.yakovenko.tariffka.data.local.entity.SupportTicketEntity
 import code.yakovenko.tariffka.domain.model.SupportTicket
-import java.time.LocalDateTime
 
 object SupportTicketMapper {
     fun toDomain(supportTicketEntity: SupportTicketEntity): SupportTicket {
@@ -15,13 +14,7 @@ object SupportTicketMapper {
             createdAt = supportTicketEntity.createdAt,
             updatedAt = supportTicketEntity.updatedAt,
             status = supportTicketEntity.status
-        ).apply {
-            require(title.isNotBlank())
-            require(description.isNotBlank())
-            require(createdAt <= LocalDateTime.now())
-            require(updatedAt <= LocalDateTime.now())
-            require(createdAt <= updatedAt)
-        }
+        )
     }
 
     fun toData(supportTicket: SupportTicket): SupportTicketEntity {

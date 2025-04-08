@@ -14,10 +14,10 @@ data class User(
     val patronymic: String?,
     val login: String,
     val phoneNumber: String,
-    val email: String,
-    val gender: UserGender,
+    val email: String?,
+    val gender: UserGender?,
     val role: UserRole,
-    val birthDate: LocalDate,
+    val birthDate: LocalDate?,
     val password: String,
 ) {
     init {
@@ -25,9 +25,9 @@ data class User(
         require(surname.isNotBlank())
         require(patronymic?.isNotBlank() == true)
         require(login.isNotBlank())
-        require(Patterns.EMAIL_ADDRESS.matcher(email).matches())
+        require(email?.let { Patterns.EMAIL_ADDRESS.matcher(it).matches() } != false)
         require(Patterns.PHONE.matcher(phoneNumber).matches())
-        require(birthDate <= LocalDate.now())
+        require(birthDate?.let { it <= LocalDate.now() } != false)
         require(password.isNotBlank())
     }
 }
