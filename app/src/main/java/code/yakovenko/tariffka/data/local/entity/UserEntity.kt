@@ -26,7 +26,8 @@ import java.time.LocalDate
     indices = [Index("operator_id"), Index("tariff_id")]
 )
 data class UserEntity(
-    @PrimaryKey val id: Int,
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
     @ColumnInfo("operator_id")
     val operatorId: Int?,
     @ColumnInfo("tariff_id")

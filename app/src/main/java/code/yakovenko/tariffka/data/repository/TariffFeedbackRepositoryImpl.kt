@@ -6,32 +6,37 @@ import code.yakovenko.tariffka.domain.model.TariffFeedback
 import code.yakovenko.tariffka.domain.repository.TariffFeedbackRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import javax.inject.Inject
 
-class TariffFeedbackRepositoryImpl @Inject constructor(
+class TariffFeedbackRepositoryImpl(
     private val tariffFeedbackDao: TariffFeedbackDao
 ) : TariffFeedbackRepository {
     override suspend fun create(tariffFeedback: TariffFeedback) {
-        tariffFeedbackDao.insert(TariffFeedbackMapper.toData(tariffFeedback))
+        tariffFeedbackDao.insertTariffFeedback(TariffFeedbackMapper.toData(tariffFeedback))
     }
 
-    override suspend fun readById(tariffFeedbackId: Int): TariffFeedback? {
-        return tariffFeedbackDao.selectById(tariffFeedbackId)?.let {
-            TariffFeedbackMapper.toDomain(it)
+    override fun readById(tariffFeedbackId: Int): Flow<TariffFeedback?> {
+        return tariffFeedbackDao.selectTariffFeedbackById(tariffFeedbackId).map { entity ->
+            entity?.let { TariffFeedbackMapper.toDomain(it) }
         }
     }
 
-    override suspend fun readAll(): Flow<List<TariffFeedback>> {
-        return tariffFeedbackDao.selectAll().map { entities ->
+    override fun readByTariffId(tariffId: Int): Flow<List<TariffFeedback>> {
+        return tariffFeedbackDao.selectTariffFeedbacksByTariffId(tariffId).map { entities ->
+            entities.map { TariffFeedbackMapper.toDomain(it) }
+        }
+    }
+
+    override fun readAll(): Flow<List<TariffFeedback>> {
+        return tariffFeedbackDao.selectAllTariffFeedbacks().map { entities ->
             entities.map { TariffFeedbackMapper.toDomain(it) }
         }
     }
 
     override suspend fun update(tariffFeedback: TariffFeedback) {
-        tariffFeedbackDao.update(TariffFeedbackMapper.toData(tariffFeedback))
+        tariffFeedbackDao.updateTariffFeedback(TariffFeedbackMapper.toData(tariffFeedback))
     }
 
     override suspend fun deleteById(tariffFeedbackId: Int) {
-        tariffFeedbackDao.deleteById(tariffFeedbackId)
+        tariffFeedbackDao.deleteTariffFeedbackById(tariffFeedbackId)
     }
 }

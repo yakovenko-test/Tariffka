@@ -24,7 +24,8 @@ import java.time.LocalDateTime
     indices = [Index("tariff_id"), Index("user_id")]
 )
 data class TariffFeedbackEntity(
-    @PrimaryKey val id: Int,
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
     @ColumnInfo("tariff_id")
     val tariffId: Int,
     @ColumnInfo("user_id")

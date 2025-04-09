@@ -44,7 +44,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun serviceDao(): ServiceDao
 
     companion object {
-        fun getDatabase(ctx: Context): AppDatabase {
+        fun getDatabaseBuilder(ctx: Context): Builder<AppDatabase> {
             val appContext = ctx.applicationContext
             val dbFile = appContext.getDatabasePath("billing.db")
 
@@ -52,7 +52,7 @@ abstract class AppDatabase : RoomDatabase() {
                 context = appContext,
                 klass = AppDatabase::class.java,
                 name = dbFile.absolutePath
-            ).build()
+            )
         }
     }
 }

@@ -18,7 +18,8 @@ import androidx.room.PrimaryKey
     indices = [Index("operator_id")]
 )
 data class ServiceEntity(
-    @PrimaryKey val id: Int,
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
     @ColumnInfo("operator_id")
     val operatorId: Int,
     val name: String,

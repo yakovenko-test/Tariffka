@@ -10,17 +10,20 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface ServiceDao {
     @Insert
-    suspend fun insert(serviceEntity: ServiceEntity)
+    suspend fun insertService(serviceEntity: ServiceEntity)
 
     @Query("SELECT * FROM services WHERE id = :serviceId")
-    suspend fun selectById(serviceId: Int): ServiceEntity?
+    fun selectServiceById(serviceId: Int): Flow<ServiceEntity?>
+
+    @Query("SELECT * FROM services WHERE operator_id = :operatorId")
+    fun selectServicesByOperatorId(operatorId: Int): Flow<List<ServiceEntity>>
 
     @Query("SELECT * FROM services")
-    fun selectAll(): Flow<List<ServiceEntity>>
+    fun selectAllServices(): Flow<List<ServiceEntity>>
 
     @Update
-    suspend fun update(serviceEntity: ServiceEntity): Int
+    suspend fun updateService(serviceEntity: ServiceEntity)
 
     @Query("DELETE FROM services WHERE id = :serviceId")
-    suspend fun deleteById(serviceId: Int): Int
+    suspend fun deleteServiceById(serviceId: Int)
 }

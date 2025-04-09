@@ -6,8 +6,9 @@ import kotlinx.coroutines.flow.Flow
 interface SupportTicketRepository {
     suspend fun create(supportTicket: SupportTicket)
 
-    suspend fun readById(supportTicketId: Int): SupportTicket?
-    suspend fun readAll(): Flow<List<SupportTicket>>
+    fun readById(supportTicketId: Int): Flow<SupportTicket?>
+    fun readByUserId(userId: Int): Flow<List<SupportTicket>>
+    fun readAll(): Flow<List<SupportTicket>>
 
     suspend fun update(supportTicket: SupportTicket)
 

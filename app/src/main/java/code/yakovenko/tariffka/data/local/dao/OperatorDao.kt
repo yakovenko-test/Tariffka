@@ -10,17 +10,17 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface OperatorDao {
     @Insert
-    suspend fun insert(operatorEntity: OperatorEntity)
+    suspend fun insertOperator(operatorEntity: OperatorEntity)
 
     @Query("SELECT * FROM operators WHERE id = :operatorId")
-    suspend fun selectById(operatorId: Int): OperatorEntity?
+    fun selectOperatorById(operatorId: Int): Flow<OperatorEntity?>
 
     @Query("SELECT * FROM operators")
-    fun selectAll(): Flow<List<OperatorEntity>>
+    fun selectAllOperators(): Flow<List<OperatorEntity>>
 
     @Update
-    suspend fun update(operatorEntity: OperatorEntity): Int
+    suspend fun updateOperator(operatorEntity: OperatorEntity)
 
     @Query("DELETE FROM operators WHERE id = :operatorId")
-    suspend fun deleteById(operatorId: Int): Int
+    suspend fun deleteOperatorById(operatorId: Int)
 }

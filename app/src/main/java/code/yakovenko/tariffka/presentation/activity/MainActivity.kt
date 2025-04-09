@@ -12,7 +12,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        appDatabase = AppDatabase.getDatabase(this)
+        appDatabase = AppDatabase.getDatabaseBuilder(this).build()
 
         enableEdgeToEdge()
 

@@ -10,17 +10,26 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface TariffDiscountDao {
     @Insert
-    suspend fun insert(tariffDiscountEntity: TariffDiscountEntity)
+    suspend fun insertTariffDiscount(tariffDiscountEntity: TariffDiscountEntity)
 
     @Query("SELECT * FROM tariff_discounts WHERE id = :tariffDiscountId")
-    suspend fun selectById(tariffDiscountId: Int): TariffDiscountEntity?
+    fun selectTariffDiscountById(tariffDiscountId: Int): Flow<TariffDiscountEntity?>
+
+    @Query(
+        """
+        SELECT * FROM tariff_discounts td
+        JOIN tariffs t ON td.tariff_id = t.id
+        WHERE t.operator_id = :operatorId
+    """
+    )
+    fun selectTariffDiscountsByOperatorId(operatorId: Int): Flow<List<TariffDiscountEntity>>
 
     @Query("SELECT * FROM tariff_discounts")
-    fun selectAll(): Flow<List<TariffDiscountEntity>>
+    fun selectAllTariffDiscounts(): Flow<List<TariffDiscountEntity>>
 
     @Update
-    suspend fun update(tariffDiscountEntity: TariffDiscountEntity): Int
+    suspend fun updateTariffDiscount(tariffDiscountEntity: TariffDiscountEntity)
 
     @Query("DELETE FROM tariff_discounts WHERE id = :tariffDiscountId")
-    suspend fun deleteById(tariffDiscountId: Int): Int
+    suspend fun deleteTariffDiscountById(tariffDiscountId: Int)
 }

@@ -6,8 +6,8 @@ import kotlinx.coroutines.flow.Flow
 interface OperatorRepository {
     suspend fun create(operator: Operator)
 
-    suspend fun readById(operatorId: Int): Operator?
-    suspend fun readAll(): Flow<List<Operator>>
+    fun readById(operatorId: Int): Flow<Operator?>
+    fun readAll(): Flow<List<Operator>>
 
     suspend fun update(operator: Operator)
 

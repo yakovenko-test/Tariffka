@@ -6,8 +6,9 @@ import kotlinx.coroutines.flow.Flow
 interface TariffFeedbackRepository {
     suspend fun create(tariffFeedback: TariffFeedback)
 
-    suspend fun readById(tariffFeedbackId: Int): TariffFeedback?
-    suspend fun readAll(): Flow<List<TariffFeedback>>
+    fun readById(tariffFeedbackId: Int): Flow<TariffFeedback?>
+    fun readByTariffId(tariffId: Int): Flow<List<TariffFeedback>>
+    fun readAll(): Flow<List<TariffFeedback>>
 
     suspend fun update(tariffFeedback: TariffFeedback)
 

@@ -6,32 +6,31 @@ import code.yakovenko.tariffka.domain.model.Operator
 import code.yakovenko.tariffka.domain.repository.OperatorRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import javax.inject.Inject
 
-class OperatorRepositoryImpl @Inject constructor(
+class OperatorRepositoryImpl(
     private val operatorDao: OperatorDao
 ) : OperatorRepository {
     override suspend fun create(operator: Operator) {
-        operatorDao.insert(OperatorMapper.toData(operator))
+        operatorDao.insertOperator(OperatorMapper.toData(operator))
     }
 
-    override suspend fun readById(operatorId: Int): Operator? {
-        return operatorDao.selectById(operatorId)?.let {
-            OperatorMapper.toDomain(it)
+    override fun readById(operatorId: Int): Flow<Operator?> {
+        return operatorDao.selectOperatorById(operatorId).map { entity ->
+            entity?.let { OperatorMapper.toDomain(it) }
         }
     }
 
-    override suspend fun readAll(): Flow<List<Operator>> {
-        return operatorDao.selectAll().map { entities ->
+    override fun readAll(): Flow<List<Operator>> {
+        return operatorDao.selectAllOperators().map { entities ->
             entities.map { OperatorMapper.toDomain(it) }
         }
     }
 
     override suspend fun update(operator: Operator) {
-        operatorDao.update(OperatorMapper.toData(operator))
+        operatorDao.updateOperator(OperatorMapper.toData(operator))
     }
 
     override suspend fun deleteById(operatorId: Int) {
-        deleteById(operatorId)
+        operatorDao.deleteOperatorById(operatorId)
     }
 }

@@ -6,32 +6,37 @@ import code.yakovenko.tariffka.domain.model.Tariff
 import code.yakovenko.tariffka.domain.repository.TariffRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import javax.inject.Inject
 
-class TariffRepositoryImpl @Inject constructor(
+class TariffRepositoryImpl(
     private val tariffDao: TariffDao
 ) : TariffRepository {
     override suspend fun create(tariff: Tariff) {
-        tariffDao.insert(TariffMapper.toData(tariff))
+        tariffDao.insertTariff(TariffMapper.toData(tariff))
     }
 
-    override suspend fun readById(tariffId: Int): Tariff? {
-        return tariffDao.selectById(tariffId)?.let {
-            TariffMapper.toDomain(it)
+    override fun readById(tariffId: Int): Flow<Tariff?> {
+        return tariffDao.selectTariffById(tariffId).map { entity ->
+            entity?.let { TariffMapper.toDomain(it) }
         }
     }
 
-    override suspend fun readAll(): Flow<List<Tariff>> {
-        return tariffDao.selectAll().map { entities ->
+    override fun readByOperatorId(operatorId: Int): Flow<List<Tariff>> {
+        return tariffDao.selectTariffsByOperatorId(operatorId).map { entities ->
+            entities.map { TariffMapper.toDomain(it) }
+        }
+    }
+
+    override fun readAll(): Flow<List<Tariff>> {
+        return tariffDao.selectAllTariffs().map { entities ->
             entities.map { TariffMapper.toDomain(it) }
         }
     }
 
     override suspend fun update(tariff: Tariff) {
-        tariffDao.update(TariffMapper.toData(tariff))
+        tariffDao.updateTariff(TariffMapper.toData(tariff))
     }
 
     override suspend fun deleteById(tariffId: Int) {
-        tariffDao.deleteById(tariffId)
+        tariffDao.deleteTariffById(tariffId)
     }
 }

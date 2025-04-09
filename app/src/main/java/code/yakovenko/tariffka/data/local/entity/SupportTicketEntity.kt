@@ -25,7 +25,8 @@ import java.time.LocalDateTime
     indices = [Index("reporter_id"), Index("assignee_id")]
 )
 data class SupportTicketEntity(
-    @PrimaryKey val id: Int,
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
     @ColumnInfo("reporter_id")
     val reporterId: Int,
     @ColumnInfo("assignee_id")

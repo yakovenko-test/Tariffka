@@ -10,17 +10,17 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface UserDao {
     @Insert
-    suspend fun insert(userEntity: UserEntity)
+    suspend fun insertUser(userEntity: UserEntity)
 
     @Query("SELECT * FROM users WHERE id = :userId")
-    suspend fun selectById(userId: Int): UserEntity?
+    fun selectUserById(userId: Int): Flow<UserEntity?>
 
     @Query("SELECT * FROM users")
-    fun selectAll(): Flow<List<UserEntity>>
+    fun selectUserAll(): Flow<List<UserEntity>>
 
     @Update
-    suspend fun update(userEntity: UserEntity): Int
+    suspend fun updateUser(userEntity: UserEntity)
 
     @Query("DELETE FROM users WHERE id = :userId")
-    suspend fun deleteById(userId: Int): Int
+    suspend fun deleteUserById(userId: Int)
 }

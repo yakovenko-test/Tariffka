@@ -6,32 +6,31 @@ import code.yakovenko.tariffka.domain.model.User
 import code.yakovenko.tariffka.domain.repository.UserRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import javax.inject.Inject
 
-class UserRepositoryImpl @Inject constructor(
+class UserRepositoryImpl(
     private val userDao: UserDao
 ) : UserRepository {
     override suspend fun create(user: User) {
-        userDao.insert(UserMapper.toData(user))
+        userDao.insertUser(UserMapper.toData(user))
     }
 
-    override suspend fun readById(userId: Int): User? {
-        return userDao.selectById(userId)?.let {
-            UserMapper.toDomain(it)
+    override fun readById(userId: Int): Flow<User?> {
+        return userDao.selectUserById(userId).map { entity ->
+            entity?.let { UserMapper.toDomain(it) }
         }
     }
 
-    override suspend fun readAll(): Flow<List<User>> {
-        return userDao.selectAll().map { entities ->
+    override fun readAll(): Flow<List<User>> {
+        return userDao.selectUserAll().map { entities ->
             entities.map { UserMapper.toDomain(it) }
         }
     }
 
     override suspend fun update(user: User) {
-        userDao.update(UserMapper.toData(user))
+        userDao.updateUser(UserMapper.toData(user))
     }
 
     override suspend fun deleteById(userId: Int) {
-        userDao.deleteById(userId)
+        userDao.deleteUserById(userId)
     }
 }

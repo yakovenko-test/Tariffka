@@ -2,9 +2,8 @@ package code.yakovenko.tariffka.domain.usecase.create
 
 import code.yakovenko.tariffka.domain.model.Service
 import code.yakovenko.tariffka.domain.repository.ServiceRepository
-import javax.inject.Inject
 
-class CreateServiceUseCase @Inject constructor(
+class CreateServiceUseCase(
     private val serviceRepository: ServiceRepository
 ) {
     suspend operator fun invoke(service: Service) {

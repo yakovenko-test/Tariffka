@@ -19,7 +19,8 @@ import java.time.LocalDateTime
     indices = [Index("tariff_id")]
 )
 data class TariffDiscountEntity(
-    @PrimaryKey val id: Int,
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
     @ColumnInfo("tariff_id")
     val tariffId: Int,
     @ColumnInfo("new_cost")
