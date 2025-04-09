@@ -1,6 +1,5 @@
 package code.yakovenko.tariffka.domain.model
 
-import android.util.Patterns
 import java.time.Year
 
 data class Operator(
@@ -12,7 +11,6 @@ data class Operator(
 ) {
     init {
         require(name.isNotBlank())
-        require(url?.let { Patterns.WEB_URL.matcher(it).matches() } != false)
         require(description?.isNotBlank() != false)
         require(yearOfFoundation in 0..Year.now().value)
     }

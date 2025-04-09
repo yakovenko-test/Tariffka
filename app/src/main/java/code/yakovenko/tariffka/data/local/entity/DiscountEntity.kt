@@ -8,23 +8,23 @@ import androidx.room.PrimaryKey
 import java.time.LocalDateTime
 
 @Entity(
-    tableName = "tariff_discounts",
+    tableName = "discounts",
     foreignKeys = [
         ForeignKey(
             entity = TariffEntity::class,
             parentColumns = ["id"],
-            childColumns = ["tariff_id"],
+            childColumns = ["operator_id"],
         )
     ],
-    indices = [Index("tariff_id")]
+    indices = [Index("operator_id")]
 )
-data class TariffDiscountEntity(
+data class DiscountEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
-    @ColumnInfo("tariff_id")
-    val tariffId: Int,
-    @ColumnInfo("new_cost")
-    val newCost: Int,
+    @ColumnInfo("operator_id")
+    val operatorId: Int,
+    val name: String,
+    val description: String,
     @ColumnInfo("active_from")
     val activeFrom: LocalDateTime,
     @ColumnInfo("active_until")

@@ -2,15 +2,17 @@ package code.yakovenko.tariffka.domain.model
 
 import java.time.LocalDateTime
 
-data class TariffDiscount(
+data class Discount(
     val id: Int,
-    val tariffId: Int,
-    val newCost: Int,
+    val operatorId: Int,
+    val name: String,
+    val description: String,
     val activeFrom: LocalDateTime,
     val activeUntil: LocalDateTime,
 ) {
     init {
-        require(newCost >= 0)
+        require(name.isNotBlank())
+        require(description.isNotBlank())
         require(activeFrom <= LocalDateTime.now())
         require(activeFrom <= activeUntil)
     }

@@ -1,6 +1,5 @@
 package code.yakovenko.tariffka.domain.model
 
-import android.util.Patterns
 import code.yakovenko.tariffka.core.utils.UserGender
 import code.yakovenko.tariffka.core.utils.UserRole
 import java.time.LocalDate
@@ -25,8 +24,6 @@ data class User(
         require(surname.isNotBlank())
         require(patronymic?.isNotBlank() == true)
         require(login.isNotBlank())
-        require(email?.let { Patterns.EMAIL_ADDRESS.matcher(it).matches() } != false)
-        require(Patterns.PHONE.matcher(phoneNumber).matches())
         require(birthDate?.let { it <= LocalDate.now() } != false)
         require(password.isNotBlank())
     }
