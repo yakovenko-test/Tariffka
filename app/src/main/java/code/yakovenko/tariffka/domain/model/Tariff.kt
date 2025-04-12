@@ -1,19 +1,31 @@
 package code.yakovenko.tariffka.domain.model
 
-data class Tariff(
-    val id: Int,
-    val operatorId: Int,
+import code.yakovenko.tariffka.core.enums.Currency
+import code.yakovenko.tariffka.core.validation.EstimationValidator
+import code.yakovenko.tariffka.core.validation.StringFieldValidator
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
+
+data class Tariff @OptIn(ExperimentalUuidApi::class) constructor(
+    val id: Uuid = Uuid.random(),
+    val operatorId: Uuid,
     val name: String,
-    val cost: Int,
-    val minutesCount: Int,
-    val gigabytesCount: Int,
-    val averageRating: Double,
+    val description: String,
+    val cost: UInt,
+    val currency: Currency,
+    val minutesCount: UInt,
+    val gigabytesCount: UInt,
+    val averageEstimation: Double,
 ) {
     init {
-        require(name.isNotBlank())
-        require(cost >= 0)
-        require(minutesCount >= 0)
-        require(gigabytesCount >= 0)
-        require(averageRating in 0.0..5.0)
+        require(StringFieldValidator(name, "Name")) {
+            StringFieldValidator.errorMessages.joinToString()
+        }
+        require(StringFieldValidator(description, "Description")) {
+            StringFieldValidator.errorMessages.joinToString()
+        }
+        require(EstimationValidator(averageEstimation, "AverageEstimation")) {
+            EstimationValidator.errorMessages.joinToString()
+        }
     }
 }

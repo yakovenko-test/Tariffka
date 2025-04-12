@@ -1,42 +1,52 @@
 package code.yakovenko.tariffka.data.repository
 
-import code.yakovenko.tariffka.data.local.dao.ServiceDao
-import code.yakovenko.tariffka.data.mapping.ServiceMapper
 import code.yakovenko.tariffka.domain.model.Service
 import code.yakovenko.tariffka.domain.repository.ServiceRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
-class ServiceRepositoryImpl(
-    private val serviceDao: ServiceDao
-) : ServiceRepository {
+@OptIn(ExperimentalUuidApi::class)
+class ServiceRepositoryImpl @Inject constructor() : ServiceRepository {
+    private val data = mutableListOf<Service>()
+    private val dataFlow = MutableStateFlow<List<Service>>(emptyList())
+
     override suspend fun create(service: Service) {
-        serviceDao.insertService(ServiceMapper.toData(service))
+        data.add(service)
+        dataFlow.value = data.toList()
     }
 
-    override fun readById(serviceId: Int): Flow<Service?> {
-        return serviceDao.selectServiceById(serviceId).map { entity ->
-            entity?.let { ServiceMapper.toDomain(entity) }
+    override fun readById(serviceId: Uuid): Flow<Service?> {
+        return dataFlow.map { services ->
+            services.find { it.id == serviceId }
         }
     }
 
-    override fun readByOperatorId(operatorId: Int): Flow<List<Service>> {
-        return serviceDao.selectServicesByOperatorId(operatorId).map { entities ->
-            entities.map { ServiceMapper.toDomain(it) }
+    override fun readByOperatorId(operatorId: Uuid): Flow<List<Service>> {
+        return dataFlow.map { services ->
+            services.filter { it.operatorId == operatorId }
         }
     }
 
     override fun readAll(): Flow<List<Service>> {
-        return serviceDao.selectAllServices().map { entities ->
-            entities.map { ServiceMapper.toDomain(it) }
-        }
+        return dataFlow.asStateFlow()
     }
 
     override suspend fun update(service: Service) {
-        serviceDao.updateService(ServiceMapper.toData(service))
+        val index = data.indexOfFirst { it.id == service.id }
+
+        if (index != -1) {
+            data[index] = service
+            dataFlow.value = data.toList()
+        }
     }
 
-    override suspend fun deleteById(optionId: Int) {
-        serviceDao.deleteServiceById(optionId)
+    override suspend fun deleteById(serviceId: Uuid) {
+        data.removeIf { it.id == serviceId }
+        dataFlow.value = data
     }
 }

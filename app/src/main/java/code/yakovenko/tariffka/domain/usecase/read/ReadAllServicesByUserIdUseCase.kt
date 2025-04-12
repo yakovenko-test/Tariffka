@@ -1,3 +1,7 @@
 package code.yakovenko.tariffka.domain.usecase.read
 
-class ReadAllServicesByUserIdUseCase
+import javax.inject.Inject
+
+class ReadAllServicesByUserIdUseCase @Inject constructor(
+
+)

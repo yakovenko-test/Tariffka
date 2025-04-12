@@ -6,7 +6,10 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
+@OptIn(ExperimentalUuidApi::class)
 class OperatorRepositoryMock : OperatorRepository {
     private val data = mutableListOf<Operator>()
     private val dataFlow = MutableStateFlow<List<Operator>>(emptyList())
@@ -16,7 +19,7 @@ class OperatorRepositoryMock : OperatorRepository {
         dataFlow.value = data.toList()
     }
 
-    override fun readById(operatorId: Int): Flow<Operator?> {
+    override fun readById(operatorId: Uuid): Flow<Operator?> {
         return dataFlow.map { operators ->
             operators.find { it.id == operatorId }
         }
@@ -35,7 +38,7 @@ class OperatorRepositoryMock : OperatorRepository {
         }
     }
 
-    override suspend fun deleteById(operatorId: Int) {
+    override suspend fun deleteById(operatorId: Uuid) {
         data.removeIf { it.id == operatorId }
         dataFlow.value = data
     }

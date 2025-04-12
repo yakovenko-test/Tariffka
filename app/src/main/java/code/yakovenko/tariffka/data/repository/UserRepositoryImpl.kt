@@ -1,36 +1,46 @@
 package code.yakovenko.tariffka.data.repository
 
-import code.yakovenko.tariffka.data.local.dao.UserDao
-import code.yakovenko.tariffka.data.mapping.UserMapper
 import code.yakovenko.tariffka.domain.model.User
 import code.yakovenko.tariffka.domain.repository.UserRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
-class UserRepositoryImpl(
-    private val userDao: UserDao
-) : UserRepository {
+@OptIn(ExperimentalUuidApi::class)
+class UserRepositoryImpl @Inject constructor() : UserRepository {
+    private val data = mutableListOf<User>()
+    private val dataFlow = MutableStateFlow<List<User>>(emptyList())
+
     override suspend fun create(user: User) {
-        userDao.insertUser(UserMapper.toData(user))
+        data.add(user)
+        dataFlow.value = data.toList()
     }
 
-    override fun readById(userId: Int): Flow<User?> {
-        return userDao.selectUserById(userId).map { entity ->
-            entity?.let { UserMapper.toDomain(it) }
+    override fun readById(userId: Uuid): Flow<User?> {
+        return dataFlow.map { users ->
+            users.find { it.id == userId }
         }
     }
 
     override fun readAll(): Flow<List<User>> {
-        return userDao.selectUserAll().map { entities ->
-            entities.map { UserMapper.toDomain(it) }
-        }
+        return dataFlow.asStateFlow()
     }
 
     override suspend fun update(user: User) {
-        userDao.updateUser(UserMapper.toData(user))
+        val index = data.indexOfFirst { it.id == user.id }
+
+        if (index != -1) {
+            data[index] = user
+            dataFlow.value = data.toList()
+        }
     }
 
-    override suspend fun deleteById(userId: Int) {
-        userDao.deleteUserById(userId)
+    override suspend fun deleteById(userId: Uuid) {
+        data.removeIf { it.id == userId }
+        dataFlow.value = data
     }
 }

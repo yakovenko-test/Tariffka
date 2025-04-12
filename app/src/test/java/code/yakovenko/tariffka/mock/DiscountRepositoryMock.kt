@@ -6,7 +6,10 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
+@OptIn(ExperimentalUuidApi::class)
 class DiscountRepositoryMock : DiscountRepository {
     private val data = mutableListOf<Discount>()
     private val dataFlow = MutableStateFlow<List<Discount>>(emptyList())
@@ -16,13 +19,13 @@ class DiscountRepositoryMock : DiscountRepository {
         dataFlow.value = data.toList()
     }
 
-    override fun readById(discountId: Int): Flow<Discount?> {
+    override fun readById(discountId: Uuid): Flow<Discount?> {
         return dataFlow.map { discounts ->
             discounts.find { it.id == discountId }
         }
     }
 
-    override fun readByOperatorId(operatorId: Int): Flow<List<Discount>> {
+    override fun readByOperatorId(operatorId: Uuid): Flow<List<Discount>> {
         return dataFlow.map { discounts ->
             discounts.filter { it.operatorId == operatorId }
         }
@@ -41,7 +44,7 @@ class DiscountRepositoryMock : DiscountRepository {
         }
     }
 
-    override suspend fun deleteById(discountId: Int) {
+    override suspend fun deleteById(discountId: Uuid) {
         data.removeIf { it.id == discountId }
         dataFlow.value = data
     }

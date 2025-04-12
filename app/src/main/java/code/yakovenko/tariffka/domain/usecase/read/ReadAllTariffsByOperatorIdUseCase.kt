@@ -1,13 +1,25 @@
 package code.yakovenko.tariffka.domain.usecase.read
 
+import code.yakovenko.tariffka.domain.exception.OperatorNotFoundException
 import code.yakovenko.tariffka.domain.model.Tariff
+import code.yakovenko.tariffka.domain.repository.OperatorRepository
 import code.yakovenko.tariffka.domain.repository.TariffRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.firstOrNull
+import javax.inject.Inject
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
-class ReadAllTariffsByOperatorIdUseCase(
-    private val tariffRepository: TariffRepository
+@OptIn(ExperimentalUuidApi::class)
+class ReadAllTariffsByOperatorIdUseCase @Inject constructor(
+    private val tariffRepository: TariffRepository,
+    private val operatorRepository: OperatorRepository
 ) {
-    operator fun invoke(operatorId: Int): Flow<List<Tariff>> {
+    suspend operator fun invoke(operatorId: Uuid): Flow<List<Tariff>> {
+        if (operatorRepository.readById(operatorId).firstOrNull() == null) {
+            throw OperatorNotFoundException(operatorId)
+        }
+
         return tariffRepository.readByOperatorId(operatorId)
     }
 }

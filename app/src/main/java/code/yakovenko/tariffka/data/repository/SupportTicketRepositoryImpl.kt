@@ -1,42 +1,54 @@
 package code.yakovenko.tariffka.data.repository
 
-import code.yakovenko.tariffka.data.local.dao.SupportTicketDao
-import code.yakovenko.tariffka.data.mapping.SupportTicketMapper
 import code.yakovenko.tariffka.domain.model.SupportTicket
 import code.yakovenko.tariffka.domain.repository.SupportTicketRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
-class SupportTicketRepositoryImpl(
-    private val supportTicketDao: SupportTicketDao
-) : SupportTicketRepository {
+@OptIn(ExperimentalUuidApi::class)
+class SupportTicketRepositoryImpl @Inject constructor() : SupportTicketRepository {
+    private val data = mutableListOf<SupportTicket>()
+    private val dataFlow = MutableStateFlow<List<SupportTicket>>(emptyList())
+
     override suspend fun create(supportTicket: SupportTicket) {
-        supportTicketDao.insertSupportTicket(SupportTicketMapper.toData(supportTicket))
+        data.add(supportTicket)
+        dataFlow.value = data.toList()
     }
 
-    override fun readById(supportTicketId: Int): Flow<SupportTicket?> {
-        return supportTicketDao.selectSupportTicketById(supportTicketId).map { entity ->
-            entity?.let { SupportTicketMapper.toDomain(it) }
+    override fun readById(supportTicketId: Uuid): Flow<SupportTicket?> {
+        return dataFlow.map { supportTickets ->
+            supportTickets.find { it.id == supportTicketId }
         }
     }
 
-    override fun readByUserId(userId: Int): Flow<List<SupportTicket>> {
-        return supportTicketDao.selectSupportTicketsByUserId(userId).map { entities ->
-            entities.map { SupportTicketMapper.toDomain(it) }
+    override fun readByUserId(userId: Uuid): Flow<List<SupportTicket>> {
+        return dataFlow.map { supportTickets ->
+            supportTickets.filter { it.reporterId == userId }
         }
     }
+
 
     override fun readAll(): Flow<List<SupportTicket>> {
-        return supportTicketDao.selectAllSupportTickets().map { entities ->
-            entities.map { SupportTicketMapper.toDomain(it) }
-        }
+        return dataFlow.asStateFlow()
     }
 
     override suspend fun update(supportTicket: SupportTicket) {
-        supportTicketDao.updateSupportTicket(SupportTicketMapper.toData(supportTicket))
+        val index = data.indexOfFirst { it.id == supportTicket.id }
+
+        if (index != -1) {
+            data[index] = supportTicket
+            dataFlow.value = data.toList()
+        }
     }
 
-    override suspend fun deleteById(supportTicketId: Int) {
-        supportTicketDao.deleteSupportTicketById(supportTicketId)
+    override suspend fun deleteById(supportTicketId: Uuid) {
+        data.removeIf { it.id == supportTicketId }
+        dataFlow.value = data
     }
 }
+

@@ -1,42 +1,52 @@
 package code.yakovenko.tariffka.data.repository
 
-import code.yakovenko.tariffka.data.local.dao.TariffDao
-import code.yakovenko.tariffka.data.mapping.TariffMapper
 import code.yakovenko.tariffka.domain.model.Tariff
 import code.yakovenko.tariffka.domain.repository.TariffRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
-class TariffRepositoryImpl(
-    private val tariffDao: TariffDao
-) : TariffRepository {
+@OptIn(ExperimentalUuidApi::class)
+class TariffRepositoryImpl @Inject constructor() : TariffRepository {
+    private val data = mutableListOf<Tariff>()
+    private val dataFlow = MutableStateFlow<List<Tariff>>(emptyList())
+
     override suspend fun create(tariff: Tariff) {
-        tariffDao.insertTariff(TariffMapper.toData(tariff))
+        data.add(tariff)
+        dataFlow.value = data.toList()
     }
 
-    override fun readById(tariffId: Int): Flow<Tariff?> {
-        return tariffDao.selectTariffById(tariffId).map { entity ->
-            entity?.let { TariffMapper.toDomain(it) }
+    override fun readById(tariffId: Uuid): Flow<Tariff?> {
+        return dataFlow.map { tariffs ->
+            tariffs.find { it.id == tariffId }
         }
     }
 
-    override fun readByOperatorId(operatorId: Int): Flow<List<Tariff>> {
-        return tariffDao.selectTariffsByOperatorId(operatorId).map { entities ->
-            entities.map { TariffMapper.toDomain(it) }
+    override fun readByOperatorId(operatorId: Uuid): Flow<List<Tariff>> {
+        return dataFlow.map { tariffs ->
+            tariffs.filter { it.operatorId == operatorId }
         }
     }
 
     override fun readAll(): Flow<List<Tariff>> {
-        return tariffDao.selectAllTariffs().map { entities ->
-            entities.map { TariffMapper.toDomain(it) }
-        }
+        return dataFlow.asStateFlow()
     }
 
     override suspend fun update(tariff: Tariff) {
-        tariffDao.updateTariff(TariffMapper.toData(tariff))
+        val index = data.indexOfFirst { it.id == tariff.id }
+
+        if (index != -1) {
+            data[index] = tariff
+            dataFlow.value = data.toList()
+        }
     }
 
-    override suspend fun deleteById(tariffId: Int) {
-        tariffDao.deleteTariffById(tariffId)
+    override suspend fun deleteById(tariffId: Uuid) {
+        data.removeIf { it.id == tariffId }
+        dataFlow.value = data
     }
 }

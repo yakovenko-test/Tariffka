@@ -6,7 +6,10 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
+@OptIn(ExperimentalUuidApi::class)
 class UserRepositoryMock : UserRepository {
     private val data = mutableListOf<User>()
     private val dataFlow = MutableStateFlow<List<User>>(emptyList())
@@ -16,7 +19,7 @@ class UserRepositoryMock : UserRepository {
         dataFlow.value = data.toList()
     }
 
-    override fun readById(userId: Int): Flow<User?> {
+    override fun readById(userId: Uuid): Flow<User?> {
         return dataFlow.map { users ->
             users.find { it.id == userId }
         }
@@ -35,7 +38,7 @@ class UserRepositoryMock : UserRepository {
         }
     }
 
-    override suspend fun deleteById(userId: Int) {
+    override suspend fun deleteById(userId: Uuid) {
         data.removeIf { it.id == userId }
         dataFlow.value = data
     }

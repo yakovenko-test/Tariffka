@@ -1,15 +1,24 @@
 package code.yakovenko.tariffka.domain.model
 
-data class Service(
-    val id: Int,
-    val operatorId: Int,
+import code.yakovenko.tariffka.core.enums.Currency
+import code.yakovenko.tariffka.core.validation.StringFieldValidator
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
+
+data class Service @OptIn(ExperimentalUuidApi::class) constructor(
+    val id: Uuid = Uuid.random(),
+    val operatorId: Uuid,
     val name: String,
-    val cost: Int,
-    val description: String?,
+    val description: String,
+    val cost: UInt,
+    val currency: Currency
 ) {
     init {
-        require(name.isNotBlank())
-        require(cost >= 0)
-        require(description?.isNotBlank() != false)
+        require(StringFieldValidator(name, "Name")) {
+            StringFieldValidator.errorMessages.joinToString()
+        }
+        require(StringFieldValidator(description, "Description")) {
+            StringFieldValidator.errorMessages.joinToString()
+        }
     }
 }

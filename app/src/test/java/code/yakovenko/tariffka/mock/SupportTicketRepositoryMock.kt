@@ -6,7 +6,10 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
+@OptIn(ExperimentalUuidApi::class)
 class SupportTicketRepositoryMock : SupportTicketRepository {
     private val data = mutableListOf<SupportTicket>()
     private val dataFlow = MutableStateFlow<List<SupportTicket>>(emptyList())
@@ -16,13 +19,13 @@ class SupportTicketRepositoryMock : SupportTicketRepository {
         dataFlow.value = data.toList()
     }
 
-    override fun readById(supportTicketId: Int): Flow<SupportTicket?> {
+    override fun readById(supportTicketId: Uuid): Flow<SupportTicket?> {
         return dataFlow.map { supportTickets ->
             supportTickets.find { it.id == supportTicketId }
         }
     }
 
-    override fun readByUserId(userId: Int): Flow<List<SupportTicket>> {
+    override fun readByUserId(userId: Uuid): Flow<List<SupportTicket>> {
         return dataFlow.map { supportTickets ->
             supportTickets.filter { it.reporterId == userId }
         }
@@ -42,7 +45,7 @@ class SupportTicketRepositoryMock : SupportTicketRepository {
         }
     }
 
-    override suspend fun deleteById(supportTicketId: Int) {
+    override suspend fun deleteById(supportTicketId: Uuid) {
         data.removeIf { it.id == supportTicketId }
         dataFlow.value = data
     }

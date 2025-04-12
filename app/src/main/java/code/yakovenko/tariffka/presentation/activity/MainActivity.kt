@@ -4,21 +4,20 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import code.yakovenko.tariffka.data.local.AppDatabase
+import code.yakovenko.tariffka.di.DaggerUseCaseComponent
 import code.yakovenko.tariffka.presentation.theme.TariffkaTheme
+import kotlin.uuid.ExperimentalUuidApi
 
+@OptIn(ExperimentalUuidApi::class)
 class MainActivity : ComponentActivity() {
-    lateinit var appDatabase: AppDatabase
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // appDatabase = AppDatabase.getDatabaseBuilder(this).build()
 
         enableEdgeToEdge()
 
         setContent {
             TariffkaTheme {
-
+                DaggerUseCaseComponent.create().getCreateUserUseCase()
             }
         }
     }

@@ -1,13 +1,23 @@
 package code.yakovenko.tariffka.domain.usecase.read
 
+import code.yakovenko.tariffka.domain.exception.OperatorNotFoundException
 import code.yakovenko.tariffka.domain.model.Operator
 import code.yakovenko.tariffka.domain.repository.OperatorRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.firstOrNull
+import javax.inject.Inject
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
-class ReadOperatorByIdUseCase(
+@OptIn(ExperimentalUuidApi::class)
+class ReadOperatorByIdUseCase @Inject constructor(
     private val operatorRepository: OperatorRepository
 ) {
-    operator fun invoke(operatorId: Int): Flow<Operator?> {
+    suspend operator fun invoke(operatorId: Uuid): Flow<Operator?> {
+        if (operatorRepository.readById(operatorId).firstOrNull() == null) {
+            throw OperatorNotFoundException(operatorId)
+        }
+
         return operatorRepository.readById(operatorId)
     }
 }
