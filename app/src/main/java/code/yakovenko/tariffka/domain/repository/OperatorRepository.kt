@@ -1,18 +1,18 @@
 package code.yakovenko.tariffka.domain.repository
 
 import code.yakovenko.tariffka.domain.model.Operator
-import kotlinx.coroutines.flow.Flow
-import kotlin.uuid.ExperimentalUuidApi
-import kotlin.uuid.Uuid
+import java.util.UUID
 
-@OptIn(ExperimentalUuidApi::class)
 interface OperatorRepository {
-    suspend fun create(operator: Operator)
+    fun create(operator: Operator): Operator
 
-    fun readById(operatorId: Uuid): Flow<Operator?>
-    fun readAll(): Flow<List<Operator>>
+    fun readById(operatorId: UUID): Operator?
+    fun readAll(): Collection<Operator>
 
-    suspend fun update(operator: Operator)
+    fun update(operator: Operator): Operator?
 
-    suspend fun deleteById(operatorId: Uuid)
+    fun deleteById(operatorId: UUID)
+
+    fun containsId(operatorId: UUID): Boolean
+    fun notContainsId(operatorId: UUID) = !containsId(operatorId)
 }

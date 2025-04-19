@@ -1,37 +1,24 @@
 package code.yakovenko.tariffka.domain.model
 
-import code.yakovenko.tariffka.core.enums.TicketStatus
-import code.yakovenko.tariffka.core.validation.LocalDateTimeValidator
-import code.yakovenko.tariffka.core.validation.StringFieldValidator
-import java.time.LocalDateTime
-import kotlin.uuid.ExperimentalUuidApi
-import kotlin.uuid.Uuid
+import code.yakovenko.tariffka.domain.type.TicketStatus
+import code.yakovenko.tariffka.common.validation.LocalDateTimeValidator
+import code.yakovenko.tariffka.common.validation.StringFieldValidator
+import code.yakovenko.tariffka.common.validation.validate
+import kotlinx.datetime.LocalDateTime
+import java.util.UUID
 
-data class SupportTicket @OptIn(ExperimentalUuidApi::class) constructor(
-    val id: Uuid = Uuid.random(),
-    val reporterId: Uuid,
-    val assigneeId: Uuid?,
+data class SupportTicket(
+    val id: UUID = UUID.randomUUID(),
+    val reporterId: UUID,
+    val assigneeId: UUID?,
     val title: String,
     val description: String,
     val createdAt: LocalDateTime,
-    val updatedAt: LocalDateTime,
     val status: TicketStatus,
 ) {
     init {
-        require(StringFieldValidator(title, "Title")) {
-            StringFieldValidator.errorMessages.joinToString()
-        }
-        require(StringFieldValidator(description, "Description")) {
-            StringFieldValidator.errorMessages.joinToString()
-        }
-        require(LocalDateTimeValidator(createdAt, "CreatedAt")) {
-            LocalDateTimeValidator.errorMessages.joinToString()
-        }
-        require(LocalDateTimeValidator(updatedAt, "UpdatedAt")) {
-            LocalDateTimeValidator.errorMessages.joinToString()
-        }
-        require(LocalDateTimeValidator(createdAt, updatedAt, "CreatedAt", "UpdatedAt")) {
-            LocalDateTimeValidator.errorMessages.joinToString()
-        }
+        validate(title, "Title", StringFieldValidator)
+        validate(description, "Description", StringFieldValidator)
+        validate(createdAt, "CreatedAt", LocalDateTimeValidator)
     }
 }

@@ -1,19 +1,19 @@
 package code.yakovenko.tariffka.domain.repository
 
 import code.yakovenko.tariffka.domain.model.Tariff
-import kotlinx.coroutines.flow.Flow
-import kotlin.uuid.ExperimentalUuidApi
-import kotlin.uuid.Uuid
+import java.util.UUID
 
-@OptIn(ExperimentalUuidApi::class)
 interface TariffRepository {
-    suspend fun create(tariff: Tariff)
+    fun create(tariff: Tariff): Tariff
 
-    fun readById(tariffId: Uuid): Flow<Tariff?>
-    fun readByOperatorId(operatorId: Uuid): Flow<List<Tariff>>
-    fun readAll(): Flow<List<Tariff>>
+    fun readById(tariffId: UUID): Tariff?
+    fun readByOperatorId(operatorId: UUID): Collection<Tariff>
+    fun readAll(): Collection<Tariff>
 
-    suspend fun update(tariff: Tariff)
+    fun update(tariff: Tariff): Tariff?
 
-    suspend fun deleteById(tariffId: Uuid)
+    fun deleteById(tariffId: UUID)
+
+    fun containsId(tariffId: UUID): Boolean
+    fun notContainsId(tariffId: UUID) = !containsId(tariffId)
 }

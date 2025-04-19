@@ -1,29 +1,22 @@
 package code.yakovenko.tariffka.domain.model
 
-import code.yakovenko.tariffka.core.validation.EstimationValidator
-import code.yakovenko.tariffka.core.validation.LocalDateTimeValidator
-import code.yakovenko.tariffka.core.validation.StringFieldValidator
-import java.time.LocalDateTime
-import kotlin.uuid.ExperimentalUuidApi
-import kotlin.uuid.Uuid
+import code.yakovenko.tariffka.common.validation.LocalDateTimeValidator
+import code.yakovenko.tariffka.common.validation.StringFieldValidator
+import code.yakovenko.tariffka.common.validation.validate
+import code.yakovenko.tariffka.domain.type.Estimation
+import kotlinx.datetime.LocalDateTime
+import java.util.UUID
 
-data class TariffFeedback @OptIn(ExperimentalUuidApi::class) constructor(
-    val id: Uuid = Uuid.random(),
-    val tariffId: Uuid,
-    val userId: Uuid,
+data class TariffFeedback(
+    val id: UUID = UUID.randomUUID(),
+    val authorId: UUID,
+    val tariffId: UUID,
     val description: String?,
-    val estimation: UByte,
+    val estimation: Estimation,
     val publishedAt: LocalDateTime,
 ) {
     init {
-        require(description?.let { StringFieldValidator(it, "Description") } != false) {
-            StringFieldValidator.errorMessages.joinToString()
-        }
-        require(EstimationValidator(estimation, "Estimation")) {
-            EstimationValidator.errorMessages.joinToString()
-        }
-        require(LocalDateTimeValidator(publishedAt, "PublishedAt")) {
-            LocalDateTimeValidator.errorMessages.joinToString()
-        }
+        validate(description, "Description", StringFieldValidator)
+        validate(publishedAt, "PublishedAt", LocalDateTimeValidator)
     }
 }

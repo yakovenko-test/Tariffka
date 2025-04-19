@@ -1,24 +1,21 @@
 package code.yakovenko.tariffka.domain.model
 
-import code.yakovenko.tariffka.core.enums.Currency
-import code.yakovenko.tariffka.core.validation.StringFieldValidator
-import kotlin.uuid.ExperimentalUuidApi
-import kotlin.uuid.Uuid
+import code.yakovenko.tariffka.domain.type.Currency
+import code.yakovenko.tariffka.common.validation.StringFieldValidator
+import code.yakovenko.tariffka.common.validation.validate
+import java.util.UUID
 
-data class Service @OptIn(ExperimentalUuidApi::class) constructor(
-    val id: Uuid = Uuid.random(),
-    val operatorId: Uuid,
+data class Service(
+    val id: UUID = UUID.randomUUID(),
+    val operatorId: UUID,
     val name: String,
     val description: String,
     val cost: UInt,
-    val currency: Currency
+    val currency: Currency?
 ) {
     init {
-        require(StringFieldValidator(name, "Name")) {
-            StringFieldValidator.errorMessages.joinToString()
-        }
-        require(StringFieldValidator(description, "Description")) {
-            StringFieldValidator.errorMessages.joinToString()
-        }
+        validate(name, "Name", StringFieldValidator)
+        validate(description, "Description", StringFieldValidator)
+        TODO("currency == null if cost == 0")
     }
 }

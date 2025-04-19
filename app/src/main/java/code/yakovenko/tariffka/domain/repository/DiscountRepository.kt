@@ -1,19 +1,19 @@
 package code.yakovenko.tariffka.domain.repository
 
 import code.yakovenko.tariffka.domain.model.Discount
-import kotlinx.coroutines.flow.Flow
-import kotlin.uuid.ExperimentalUuidApi
-import kotlin.uuid.Uuid
+import java.util.UUID
 
-@OptIn(ExperimentalUuidApi::class)
 interface DiscountRepository {
-    suspend fun create(discount: Discount)
+    fun create(discount: Discount): Discount
 
-    fun readById(discountId: Uuid): Flow<Discount?>
-    fun readByOperatorId(operatorId: Uuid): Flow<List<Discount>>
-    fun readAll(): Flow<List<Discount>>
+    fun readById(discountId: UUID): Discount?
+    fun readByOperatorId(operatorId: UUID): Collection<Discount>
+    fun readAll(): Collection<Discount>
 
-    suspend fun update(discount: Discount)
+    fun update(discount: Discount): Discount?
 
-    suspend fun deleteById(discountId: Uuid)
+    fun deleteById(discountId: UUID)
+
+    fun containsId(discountId: UUID): Boolean
+    fun notContainsId(discountId: UUID) = !containsId(discountId)
 }
