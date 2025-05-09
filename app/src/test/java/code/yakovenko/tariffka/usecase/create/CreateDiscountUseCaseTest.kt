@@ -1,14 +1,5 @@
 package code.yakovenko.tariffka.usecase.create
 
-import code.yakovenko.tariffka.common.extension.now
-import code.yakovenko.tariffka.domain.model.Discount
-import code.yakovenko.tariffka.domain.model.Operator
-import code.yakovenko.tariffka.domain.usecase.discount.CreateDiscountUseCase
-import kotlinx.coroutines.flow.first
-import kotlinx.datetime.LocalDateTime
-import org.junit.Before
-import org.junit.Test
-import kotlin.test.assertEquals
 import kotlin.uuid.ExperimentalUuidApi
 
 @OptIn(ExperimentalUuidApi::class)

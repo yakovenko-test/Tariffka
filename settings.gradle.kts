@@ -21,4 +21,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "Tariffka"
 include(":app")
- 
+include(":core")
+include(":domain")
+include(":data")

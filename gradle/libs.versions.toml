@@ -1,13 +1,14 @@
 [versions]
-agp = "8.9.1"
-dagger = "2.56.1"
-exposed = "0.60.0"
-h2 = "2.2.224"
+agp = "8.10.0"
+dagger = "2.56.2"
+exposed = "0.61.0"
+h2 = "2.3.232"
 kotlin = "2.1.10"
-kotlinxDatetime = "0.4.1"
+kotlinxDatetime = "0.6.2"
 activityCompose = "1.10.1"
-composeBom = "2025.04.00"
+composeBom = "2025.05.00"
 log4jSlf4j2Impl = "2.24.3"
+jetbrainsKotlinJvm = "2.1.20"
 
 [libraries]
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
@@ -26,3 +27,4 @@ log4j-slf4j2-impl = { module = "org.apache.logging.log4j:log4j-slf4j2-impl", ver
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }

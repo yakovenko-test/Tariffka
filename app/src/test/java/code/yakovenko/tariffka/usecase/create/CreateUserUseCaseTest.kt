@@ -1,19 +1,5 @@
 package code.yakovenko.tariffka.usecase.create
 
-import code.yakovenko.tariffka.domain.type.Currency
-import code.yakovenko.tariffka.domain.type.UserGender
-import code.yakovenko.tariffka.domain.type.UserRole
-import code.yakovenko.tariffka.common.extension.now
-import code.yakovenko.tariffka.domain.model.Operator
-import code.yakovenko.tariffka.domain.model.Tariff
-import code.yakovenko.tariffka.domain.model.User
-import code.yakovenko.tariffka.domain.usecase.user.CreateUserUseCase
-import kotlinx.coroutines.flow.first
-import kotlinx.datetime.LocalDate
-import org.junit.Before
-import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
-import kotlin.test.assertNull
 import kotlin.uuid.ExperimentalUuidApi
 
 @OptIn(ExperimentalUuidApi::class)

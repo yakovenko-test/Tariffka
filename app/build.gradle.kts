@@ -40,16 +40,12 @@ android {
 }
 
 dependencies {
-    implementation(libs.kotlinx.datetime)
-
     implementation(libs.exposed.core)
     implementation(libs.exposed.dao)
     implementation(libs.exposed.jdbc)
     implementation(libs.jetbrains.exposed.kotlin.datetime)
 
     implementation(libs.h2)
-
-    implementation(libs.dagger)
 
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)
