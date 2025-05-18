@@ -1,3 +1,0 @@
-package code.yakovenko.tariffka.usecase.read
-
-class ReadOperatorByIdUseCaseTest
