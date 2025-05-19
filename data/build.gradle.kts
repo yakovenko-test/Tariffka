@@ -2,14 +2,13 @@ plugins {
     alias(libs.plugins.kotlin.jvm)
 }
 
-dependencies {
-    implementation(project(":common"))
-    implementation(project(":domain"))
+group = "test.yakovenko"
+version = "0.0.1"
 
-    implementation(libs.dagger)
+repositories {
+    mavenCentral()
+}
 
-    implementation(libs.exposed.core)
-    implementation(libs.exposed.dao)
-    implementation(libs.exposed.jdbc)
-    implementation(libs.jetbrains.exposed.kotlin.datetime)
+kotlin {
+    jvmToolchain(21)
 }

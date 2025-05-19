@@ -2,9 +2,11 @@ plugins {
     alias(libs.plugins.kotlin.jvm)
 }
 
-tasks.test {
-    useJUnitPlatform()
-    jvmArgs("-XX:+EnableDynamicAgentLoading")
+group = "test.yakovenko"
+version = "0.0.1"
+
+repositories {
+    mavenCentral()
 }
 
 dependencies {
@@ -16,6 +18,17 @@ dependencies {
 
     testImplementation(kotlin("test"))
     testImplementation(libs.kotlinx.coroutines.test)
-    testImplementation(libs.junit.jupiter)
     testImplementation(libs.mockk)
+}
+
+tasks.test {
+    useJUnitPlatform()
+    jvmArgs(
+        "-XX:+EnableDynamicAgentLoading",
+        "-Xshare:off"
+    )
+}
+
+kotlin {
+    jvmToolchain(21)
 }

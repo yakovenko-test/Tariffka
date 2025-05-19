@@ -1,3 +1,0 @@
-package code.yakovenko.tariffka.data.repository
-
-class TariffFeedbackRepositoryImplTest
