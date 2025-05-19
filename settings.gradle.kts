@@ -1,5 +1,5 @@
 rootProject.name = "Tariffka"
 
-include("common")
-include("domain")
-include("data")
+include(":app")
+include(":common")
+include(":domain")

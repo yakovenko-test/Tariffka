@@ -13,20 +13,16 @@ dependencies {
     implementation(project(":common"))
 
     implementation(libs.kotlinx.datetime)
-
     implementation(libs.dagger)
 
-    testImplementation(kotlin("test"))
+    testImplementation(libs.kotlin.test)
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.mockk)
 }
 
 tasks.test {
     useJUnitPlatform()
-    jvmArgs(
-        "-XX:+EnableDynamicAgentLoading",
-        "-Xshare:off"
-    )
+    jvmArgs("-XX:+EnableDynamicAgentLoading", "-Xshare:off")
 }
 
 kotlin {
